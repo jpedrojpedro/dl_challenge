@@ -1,0 +1,21 @@
+.idea
+.venv
+.vscode
+__pycache__
+*.pyc
+.coverage
+.env
+venv/
+.env.dev.bkp
+
+# Pipenv
+Pipfile
+Pipfile.lock
+
+# Pyenv
+.python-version
+
+# PyCharm
+.idea/
+
+# output files

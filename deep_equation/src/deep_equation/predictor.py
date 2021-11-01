@@ -1,9 +1,11 @@
 """
 Predictor interfaces for the Deep Learning challenge.
 """
-
-from typing import List
+import torch
 import numpy as np
+from typing import List
+from pathlib import Path
+from deep_equation.src.deep_equation.model import LeNet
 
 
 class BaseNet:
@@ -60,14 +62,13 @@ class RandomModel(BaseNet):
 
     def predict(
         self, images_a, images_b,
-        operators, device = 'cpu'
+        operators, device='cpu'
     ) -> List[float]:
 
         predictions = []
-        for image_a, image_b, operator in zip(images_a, images_b, operators):            
+        for _image_a, _image_b, _operator in zip(images_a, images_b, operators):
             random_prediction = np.random.uniform(-10, 100, size=1)[0]
             predictions.append(random_prediction)
-        
         return predictions
 
 
@@ -78,19 +79,16 @@ class StudentModel(BaseNet):
         predict: method that makes batch predictions.
     """
 
-    # TODO
-    def load_model(self, model_path: str):
-        """
-        Load the student's trained model.
-        TODO: update the default `model_path` 
-              to be the correct path for your best model!
-        """
-        pass
-    
+    def load_model(self, model_path=Path("../../model_state/20211031-234734_state.pt")):
+        model = LeNet()
+        model.load_state_dict(torch.load(model_path))
+        model.eval()
+        return model
+
     # TODO:
     def predict(
         self, images_a, images_b,
-        operators, device = 'cpu'
+        operators, device='cpu'
     ):
         """Implement this method to perform predictions 
         given a list of images_a, images_b and operators.

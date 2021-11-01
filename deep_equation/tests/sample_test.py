@@ -1,18 +1,32 @@
 import unittest
 from PIL import Image
-from deep_equation import predictor
+from pathlib import Path
+from deep_equation.src.deep_equation import predictor
 
 
 class TestRandomModel(unittest.TestCase):
+    def setUp(self) -> None:
+        resources_dir = Path("../resources")
+        self.digit_a = Image.open(resources_dir / "digit_a.png")
+        self.digit_b = Image.open(resources_dir / "digit_b.png")
+
+        self.input_imgs_a.extend([
+            self.digit_a, self.digit_a, self.digit_b, self.digit_b, self.digit_a
+        ])
+        self.input_imgs_b.extend([
+            self.digit_b, self.digit_b, self.digit_a, self.digit_b, self.digit_a
+        ])
+
+    def tearDown(self) -> None:
+        self.digit_a.close()
+        self.digit_b.close()
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.digit_a = Image.open('resources/digit_a.png')
-        self.digit_b = Image.open('resources/digit_b.png')
-
-        self.input_imgs_a = [
-            self.digit_a, self.digit_a, self.digit_b, self.digit_b, self.digit_a]
-        self.input_imgs_b = [
-            self.digit_b, self.digit_b, self.digit_a, self.digit_b, self.digit_a]
+        self.digit_a = None
+        self.digit_b = None
+        self.input_imgs_a = []
+        self.input_imgs_b = []
         self.operators = ['+', '-', '*', '/', '*']
 
     def test_random_predictor(self):

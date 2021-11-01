@@ -19,3 +19,5 @@ Pipfile.lock
 .idea/
 
 # output files
+deep_equation/dataset
+deep_equation/model_state

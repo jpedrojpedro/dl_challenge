@@ -89,7 +89,7 @@ class TrainAndValidate:
 
         return model, optimizer, (train_losses, valid_losses)
 
-    def run(self, state_dir=Path("../..") / "state"):
+    def run(self, state_dir=Path("../..") / "model_state"):
         self.setup()
         transform = transforms.Compose(
             [transforms.Resize((32, 32)), transforms.ToTensor()]
@@ -111,7 +111,9 @@ class TrainAndValidate:
         model, optimizer, _ = self.training_loop(train_loader, valid_loader)
         now = dt.datetime.now()
         state_filename = "{}_state.pt".format(now.strftime("%Y%m%d-%H%M%S"))
-        torch.save(model.state_dict(), state_dir / state_filename)
+        full_path = state_dir / state_filename
+        with open(full_path, 'w'):
+            torch.save(model.state_dict(), full_path)
 
 
 if __name__ == '__main__':

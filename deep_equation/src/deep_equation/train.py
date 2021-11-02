@@ -78,12 +78,14 @@ class TrainAndValidate:
                 train_acc = get_accuracy(model, train_loader, device=self.device)
                 valid_acc = get_accuracy(model, valid_loader, device=self.device)
 
-                print(f'{dt.datetime.now().time().replace(microsecond=0)} --- '
-                      f'Epoch: {epoch}\t'
-                      f'Train loss: {train_loss:.4f}\t'
-                      f'Valid loss: {valid_loss:.4f}\t'
-                      f'Train accuracy: {100 * train_acc:.2f}\t'
-                      f'Valid accuracy: {100 * valid_acc:.2f}')
+                print(
+                    f'{dt.datetime.now().time().replace(microsecond=0)} --- '
+                    f'Epoch: {epoch}\t'
+                    f'Train loss: {train_loss:.4f}\t'
+                    f'Valid loss: {valid_loss:.4f}\t'
+                    f'Train accuracy: {100 * train_acc:.2f}\t'
+                    f'Valid accuracy: {100 * valid_acc:.2f}'
+                )
 
         plot_losses(train_losses, valid_losses)
 

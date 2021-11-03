@@ -21,7 +21,7 @@ class TrainAndValidate:
 
     def setup(self,
               dataset_dir=Path("../..") / "dataset",
-              learning_rate=0.01, num_epochs=10,
+              learning_rate=0.001, num_epochs=10,
               loss=nn.CrossEntropyLoss(),
               optimizer=optim.Adam
               ):

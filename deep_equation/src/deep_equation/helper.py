@@ -11,13 +11,6 @@ img_to_tensor = transforms.Compose(
     [transforms.Resize((32, 32)), transforms.Grayscale(), transforms.ToTensor()]
 )
 
-str_to_op = {
-    '+': add,
-    '-': sub,
-    '*': mul,
-    '/': truediv,
-}
-
 
 def load_classes(filepath='classes.json'):
     with open(filepath, 'r') as fp:
@@ -34,21 +27,21 @@ def build_classes():
                     classes.add(round(operation(n1, n2), 2))
                 except ZeroDivisionError:
                     classes.add(inf)
-    classes_dict = {str(val): klass for klass, val in enumerate(sorted(list(classes)))}
+    classes_dict = {f'{val:.2f}': klass for klass, val in enumerate(sorted(list(classes)))}
     classes_dict['-inf'] = len(classes_dict.keys())
     return classes_dict
 
 
 def hot_encoding(operator):
-    if operator == '+':
-        return torch.tensor([32*[8*[1, 0, 0, 0]]])
-    if operator == '-':
-        return torch.tensor([32*[8*[0, 1, 0, 0]]])
-    if operator == '*':
-        return torch.tensor([32*[8*[0, 0, 1, 0]]])
-    if operator == '/':
-        return torch.tensor([32*[8*[0, 0, 0, 1]]])
-    return torch.tensor([32*[8*[0, 0, 0, 0]]])
+    if operator in [0, '+', add]:
+        return add, torch.tensor([32*[8*[1, 0, 0, 0]]])
+    if operator in [1, '-', sub]:
+        return sub, torch.tensor([32*[8*[0, 1, 0, 0]]])
+    if operator in [2, '*', mul]:
+        return mul, torch.tensor([32*[8*[0, 0, 1, 0]]])
+    if operator in [3, '/', truediv]:
+        return truediv, torch.tensor([32*[8*[0, 0, 0, 1]]])
+    return None, torch.tensor([32*[8*[0, 0, 0, 0]]])
 
 
 def get_accuracy(model, data_loader, device):
@@ -90,4 +83,4 @@ def plot_losses(train_losses, valid_losses):
 
 
 if __name__ == '__main__':
-    print(load_classes())
+    print(build_classes())

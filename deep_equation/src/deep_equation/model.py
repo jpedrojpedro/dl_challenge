@@ -1,35 +1,9 @@
 import torch
 import torch.nn as nn
 from torchsummary import summary
-from torchvision import transforms
-from operator import add, sub, mul, truediv
-from math import inf
 from pathlib import Path
 from PIL import Image
-
-
-def hot_encoding(operator):
-    if operator == '+':
-        return torch.tensor([32*[8*[1, 0, 0, 0]]])
-    if operator == '-':
-        return torch.tensor([32*[8*[0, 1, 0, 0]]])
-    if operator == '*':
-        return torch.tensor([32*[8*[0, 0, 1, 0]]])
-    if operator == '/':
-        return torch.tensor([32*[8*[0, 0, 0, 1]]])
-    return torch.tensor([32*[8*[0, 0, 0, 0]]])
-
-
-def build_classes():
-    classes = set()
-    for n1 in range(0, 10):
-        for n2 in range(0, 10):
-            for operation in [add, sub, mul, truediv]:
-                try:
-                    classes.add(round(operation(n1, n2), 2))
-                except ZeroDivisionError:
-                    classes.add(inf)
-    return classes
+from deep_equation.src.deep_equation.helper import img_to_tensor, hot_encoding, build_classes
 
 
 class LeNet(nn.Module):
@@ -58,7 +32,7 @@ class LeNet(nn.Module):
             padding=0
         )
         self.linear1 = nn.Linear(120, 84)
-        self.linear2 = nn.Linear(84, len(self.classes))
+        self.linear2 = nn.Linear(84, len(self.classes.keys()))
         self.tanh = nn.Tanh()
         self.avgpool = nn.AvgPool2d(kernel_size=2, stride=2)
 
@@ -81,9 +55,6 @@ class LeNet(nn.Module):
 
 if __name__ == '__main__':
     model = LeNet()
-    img_to_tensor = transforms.Compose(
-        [transforms.Resize((32, 32)), transforms.Grayscale(), transforms.ToTensor()]
-    )
     img1 = Image.open(Path("../../resources/digit_a.png"))
     img2 = Image.open(Path("../../resources/digit_b.png"))
     op = hot_encoding('+')

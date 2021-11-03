@@ -20,13 +20,15 @@ class TrainAndValidate:
         self.optimizer = None
 
     def setup(self,
-              dataset_dir=Path("../..") / "dataset",
+              dataset_folder_name="dataset",
               learning_rate=0.001, num_epochs=30,
               loss=nn.CrossEntropyLoss(),
               optimizer=optim.Adam
               ):
         self.learning_rate = learning_rate
         self.num_epochs = num_epochs
+        base_path = Path(__file__)
+        dataset_dir = base_path.parent.parent.parent / dataset_folder_name
         self.dataset_dir = dataset_dir
         self.loss = loss
         self.optimizer = optimizer(self.model.parameters(), lr=learning_rate)
@@ -98,7 +100,7 @@ class TrainAndValidate:
 
         return model, optimizer, (training_losses, validation_losses)
 
-    def run(self, state_dir=Path("../..") / "model_state"):
+    def run(self, params_folder_name="model_state"):
         self.setup()
         training_dataset = datasets.MNIST(
             root=self.dataset_dir,
@@ -119,6 +121,8 @@ class TrainAndValidate:
         model, optimizer, _ = self.training_loop((X_train, y_train), (X_val, y_val))
         now = dt.datetime.now()
         state_filename = "{}_state.pt".format(now.strftime("%Y%m%d-%H%M%S"))
+        base_path = Path(__file__)
+        state_dir = base_path.parent.parent.parent / params_folder_name
         full_path = state_dir / state_filename
         with open(full_path, 'w'):
             torch.save(model.state_dict(), full_path)

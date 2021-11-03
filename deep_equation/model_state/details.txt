@@ -1,0 +1,12 @@
+20211031-234734_state.pt - modelo inicial com acuária em ~9%
+20211101-232508_state.pt - modelo inicial com acuária em ~9%
+20211101-235438_state.pt - modelo inicial com acuária em ~9%
+20211103-003732_state.pt - ajuste do learning rate e acuária em ~88%
+20211103-020615_state.pt - ajustes gerais
+20211103-021227_state.pt - modificação no número de épocas - 10 para 15
+20211103-121812_state.pt - utilização do transform AutoAugment (baseado no IMAGENET)
+20211103-124621_state.pt - modificação no número de épocas - 15 para 30
+20211103-132239_state.pt - utilização do transform AutoAugment (baseado no SVHN)
+20211103-133944_state.pt - treinando com o transform AutoAugment (baseado no SVHN) e validando sem ele (MNIST puro)
+20211103-162141_state.pt - treinando com o transform AutoAugment (baseado no IMAGENET) e validando sem ele (MNIST puro)
+20211103-173938_state.pt - treinando com o transform AutoAugment (baseado no CIFAR10) e validando sem ele (MNIST puro)

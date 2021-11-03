@@ -4,7 +4,7 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from pathlib import Path
-from deep_equation.src.deep_equation.helper import get_accuracy, plot_losses, img_to_tensor
+from deep_equation.src.deep_equation.helper import get_accuracy, plot_losses, img_to_tensor, img_to_tensor_pre_proc
 from deep_equation.src.deep_equation.model import LeNet
 from deep_equation.src.deep_equation.generate_dataset import main as gen_ds
 
@@ -21,7 +21,7 @@ class TrainAndValidate:
 
     def setup(self,
               dataset_dir=Path("../..") / "dataset",
-              learning_rate=0.001, num_epochs=15,
+              learning_rate=0.001, num_epochs=30,
               loss=nn.CrossEntropyLoss(),
               optimizer=optim.Adam
               ):
@@ -109,7 +109,7 @@ class TrainAndValidate:
         validation_dataset = datasets.MNIST(
             root=self.dataset_dir,
             train=False,
-            transform=img_to_tensor,
+            transform=img_to_tensor_pre_proc,
             download=True
         )
         training_loader = DataLoader(dataset=training_dataset, batch_size=128, shuffle=True)

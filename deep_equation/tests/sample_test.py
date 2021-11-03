@@ -77,3 +77,6 @@ class TestRandomModel(unittest.TestCase):
         for out in output:
             self.assertGreaterEqual(out, -10)
             self.assertLessEqual(out, 100)
+
+        # Comparing expected result classes
+        self.assertEqual([67.00, 51.00, 82.00, 37.00, 88.00], output)

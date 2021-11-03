@@ -80,7 +80,7 @@ class StudentModel(BaseNet):
         predict: method that makes batch predictions.
     """
 
-    def load_model(self, model_path="model_state/20211103-021227_state.pt"):
+    def load_model(self, model_path="model_state/20211103-173938_state.pt"):
         base_path = Path(__file__)
         model_full_path = base_path.parent.parent.parent / model_path
         model = LeNet()
@@ -99,4 +99,5 @@ class StudentModel(BaseNet):
         model = self.load_model()
         fixed_inputs = adjust_inputs(images_a, images_b, operators)
         predictions = model(fixed_inputs)
+        predictions = [float(torch.argmax(pred)) for pred in predictions]
         return predictions

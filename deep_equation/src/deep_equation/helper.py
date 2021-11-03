@@ -9,6 +9,15 @@ from pathlib import Path
 
 
 img_to_tensor = transforms.Compose(
+    [
+        transforms.Resize((32, 32)),
+        transforms.AutoAugment(policy=transforms.AutoAugmentPolicy.CIFAR10),
+        transforms.Grayscale(),
+        transforms.ToTensor()
+    ]
+)
+
+img_to_tensor_pre_proc = transforms.Compose(
     [transforms.Resize((32, 32)), transforms.Grayscale(), transforms.ToTensor()]
 )
 
@@ -50,7 +59,9 @@ def hot_encoding(operator):
 def adjust_inputs(images_a, images_b, operators):
     fixed_input = torch.empty(size=(len(operators), 3, 32, 32))
     for i in range(len(operators)):
-        tensor = torch.cat((img_to_tensor(images_a[i]), img_to_tensor(images_b[i]), hot_encoding(operators[i])[1]))
+        tensor = torch.cat(
+            (img_to_tensor_pre_proc(images_a[i]), img_to_tensor_pre_proc(images_b[i]), hot_encoding(operators[i])[1])
+        )
         fixed_input[i] = tensor
     return fixed_input
 

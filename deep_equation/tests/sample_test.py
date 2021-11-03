@@ -7,7 +7,7 @@ from deep_equation.src.deep_equation import predictor
 class TestRandomModel(unittest.TestCase):
     def setUp(self) -> None:
         base_path = Path(__file__)
-        resources_dir = base_path / "resources"
+        resources_dir = base_path.parent.parent / "resources"
         self.digit_a = Image.open(resources_dir / "digit_a.png")
         self.digit_b = Image.open(resources_dir / "digit_b.png")
 

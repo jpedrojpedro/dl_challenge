@@ -3,15 +3,15 @@ import torch.nn as nn
 from torchsummary import summary
 from pathlib import Path
 from PIL import Image
-from deep_equation.src.deep_equation.helper import img_to_tensor, hot_encoding, build_classes
+from deep_equation.src.deep_equation.helper import img_to_tensor, hot_encoding, load_classes
 
 
 class LeNet(nn.Module):
     def __init__(self):
         super(LeNet, self).__init__()
-        self.classes = build_classes()
+        self.num_classes = len(load_classes())
         self.conv1 = nn.Conv2d(
-            in_channels=3,
+            in_channels=3,  # original LeNet-5 reads just one channel (grayscale)
             out_channels=6,
             kernel_size=(5, 5),
             stride=(1, 1),
@@ -32,7 +32,7 @@ class LeNet(nn.Module):
             padding=0
         )
         self.linear1 = nn.Linear(120, 84)
-        self.linear2 = nn.Linear(84, len(self.classes.keys()))
+        self.linear2 = nn.Linear(84, self.num_classes)
         self.tanh = nn.Tanh()
         self.avgpool = nn.AvgPool2d(kernel_size=2, stride=2)
 

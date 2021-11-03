@@ -1,3 +1,4 @@
+import json
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,6 +19,12 @@ str_to_op = {
 }
 
 
+def load_classes(filepath='classes.json'):
+    with open(filepath, 'r') as fp:
+        classes_dict = json.loads(fp.read())
+    return classes_dict
+
+
 def build_classes():
     classes = set()
     for n1 in range(0, 10):
@@ -27,8 +34,8 @@ def build_classes():
                     classes.add(round(operation(n1, n2), 2))
                 except ZeroDivisionError:
                     classes.add(inf)
-    classes_dict = {val: klass for klass, val in enumerate(sorted(list(classes)))}
-    classes_dict[float('-inf')] = len(classes_dict.keys())
+    classes_dict = {str(val): klass for klass, val in enumerate(sorted(list(classes)))}
+    classes_dict['-inf'] = len(classes_dict.keys())
     return classes_dict
 
 
@@ -80,3 +87,7 @@ def plot_losses(train_losses, valid_losses):
 
     # change the plot style to default
     plt.style.use('default')
+
+
+if __name__ == '__main__':
+    print(load_classes())

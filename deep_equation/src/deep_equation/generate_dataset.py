@@ -4,7 +4,7 @@ from torchvision import datasets
 from math import inf
 from random import randint
 from pathlib import Path
-from deep_equation.src.deep_equation.helper import hot_encoding, img_to_tensor, str_to_op, build_classes
+from deep_equation.src.deep_equation.helper import hot_encoding, img_to_tensor, str_to_op, load_classes
 
 
 def handle_operation(n1, n2, op):
@@ -15,14 +15,14 @@ def handle_operation(n1, n2, op):
 
 
 def main(loader):
+    classes_dict = load_classes()
     operators = {op: hot_encoding(op) for op in str_to_op.keys()}
     X = []
     y = []
     loader_lst = list(loader)
-    classes_dict = build_classes()
     for batch in loader_lst:
         new_batch_inputs = torch.empty(size=(128, 3, 32, 32))
-        new_batch_answers = torch.full(size=(128, ), fill_value=classes_dict[float('-inf')])
+        new_batch_answers = torch.full(size=(128, ), fill_value=classes_dict['-inf'])
         images = batch[0]
         answers = batch[1]
         for idx, img in enumerate(images):
@@ -32,7 +32,7 @@ def main(loader):
             new_input = torch.cat((img, images[r_idx], operators[k_idx_op]))
             new_answer = handle_operation(answers[idx], answers[r_idx], str_to_op[k_idx_op])
             new_batch_inputs[idx] = new_input
-            new_batch_answers[idx] = torch.tensor(classes_dict[new_answer])
+            new_batch_answers[idx] = torch.tensor(classes_dict[str(new_answer)])
         X.append(new_batch_inputs)
         y.append(new_batch_answers)
     return X, y

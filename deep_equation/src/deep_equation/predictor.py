@@ -6,6 +6,7 @@ import numpy as np
 from typing import List
 from pathlib import Path
 from deep_equation.src.deep_equation.model import LeNet
+from deep_equation.src.deep_equation.helper import adjust_inputs
 
 
 class BaseNet:
@@ -79,9 +80,11 @@ class StudentModel(BaseNet):
         predict: method that makes batch predictions.
     """
 
-    def load_model(self, model_path=Path("../../model_state/20211031-234734_state.pt")):
+    def load_model(self, model_path="model_state/20211103-021227_state.pt"):
+        base_path = Path(__file__)
+        model_full_path = base_path.parent.parent.parent / model_path
         model = LeNet()
-        model.load_state_dict(torch.load(model_path))
+        model.load_state_dict(torch.load(model_full_path))
         model.eval()
         return model
 
@@ -93,6 +96,7 @@ class StudentModel(BaseNet):
         """Implement this method to perform predictions 
         given a list of images_a, images_b and operators.
         """
-        predictions = []
-        
+        model = self.load_model()
+        fixed_inputs = adjust_inputs(images_a, images_b, operators)
+        predictions = model(fixed_inputs)
         return predictions

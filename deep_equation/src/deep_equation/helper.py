@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from torchvision import transforms
 from operator import add, sub, mul, truediv
 from math import inf
+from pathlib import Path
 
 
 img_to_tensor = transforms.Compose(
@@ -12,7 +13,9 @@ img_to_tensor = transforms.Compose(
 )
 
 
-def load_classes(filepath='classes.json'):
+def load_classes(filename='classes.json'):
+    base_path = Path(__file__)
+    filepath = base_path.parent / filename
     with open(filepath, 'r') as fp:
         classes_dict = json.loads(fp.read())
     return classes_dict
@@ -42,6 +45,14 @@ def hot_encoding(operator):
     if operator in [3, '/', truediv]:
         return truediv, torch.tensor([32*[8*[0, 0, 0, 1]]])
     return None, torch.tensor([32*[8*[0, 0, 0, 0]]])
+
+
+def adjust_inputs(images_a, images_b, operators):
+    fixed_input = torch.empty(size=(len(operators), 3, 32, 32))
+    for i in range(len(operators)):
+        tensor = torch.cat((img_to_tensor(images_a[i]), img_to_tensor(images_b[i]), hot_encoding(operators[i])[1]))
+        fixed_input[i] = tensor
+    return fixed_input
 
 
 def get_accuracy(model, data_loader, device):

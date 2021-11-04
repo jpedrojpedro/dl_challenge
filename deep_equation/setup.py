@@ -20,15 +20,16 @@ requirements = read_multiline_as_list("requirements.txt")
 
 setuptools.setup(
     name="deep_equation",
-    version="0.0.1",
-    author="Wehrmann",
-    author_email="wehrmann@puc-rio.br",
+    version="0.0.5",
+    author="João Pedro Pinheiro",
+    author_email="jpinheiro@puc-rio.br",
     description="Deep Equation Challenge",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="",
-    packages=setuptools.find_packages(where="src"),
-    package_dir={"": "src"},
+    url="https://github.com/jpedrojpedro/dl_challenge",
+    packages=setuptools.find_packages(include=['deep_equation']),
+    include_package_data=True,
+    # package_dir={"": "src"},
     # classifiers=classifiers,
     # keywords='web api, restful, AI, NLP, retrieval, neural code search',
     entry_points={
@@ -36,7 +37,7 @@ setuptools.setup(
             # '',
         ],
     },
-    python_requires=">=3.7, <=3.9.5",
+    python_requires=">=3.7, <=3.9.6",
     install_requires=requirements,
     # extras_require={
     #     "full": first_party_deps,

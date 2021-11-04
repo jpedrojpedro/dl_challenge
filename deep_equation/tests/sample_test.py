@@ -1,7 +1,7 @@
 import unittest
 from PIL import Image
 from pathlib import Path
-from deep_equation.src.deep_equation import predictor
+from deep_equation import predictor
 
 
 class TestRandomModel(unittest.TestCase):

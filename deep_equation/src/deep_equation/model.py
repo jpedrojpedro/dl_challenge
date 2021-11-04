@@ -3,7 +3,7 @@ import torch.nn as nn
 from torchsummary import summary
 from pathlib import Path
 from PIL import Image
-from deep_equation.src.deep_equation.helper import img_to_tensor, hot_encoding, load_classes
+from deep_equation.helper import img_to_tensor, hot_encoding, load_classes
 
 
 class LeNet(nn.Module):

@@ -4,9 +4,9 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from pathlib import Path
-from deep_equation.src.deep_equation.helper import get_accuracy, plot_losses, img_to_tensor, img_to_tensor_pre_proc
-from deep_equation.src.deep_equation.model import LeNet
-from deep_equation.src.deep_equation.generate_dataset import main as gen_ds
+from deep_equation.helper import get_accuracy, plot_losses, img_to_tensor, img_to_tensor_pre_proc
+from deep_equation.model import LeNet
+from deep_equation.generate_dataset import main as gen_ds
 
 
 class TrainAndValidate:

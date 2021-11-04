@@ -5,8 +5,8 @@ import torch
 import numpy as np
 from typing import List
 from pathlib import Path
-from deep_equation.src.deep_equation.model import LeNet
-from deep_equation.src.deep_equation.helper import adjust_inputs
+from deep_equation.model import LeNet
+from deep_equation.helper import adjust_inputs
 
 
 class BaseNet:

@@ -4,7 +4,7 @@ from torchvision import datasets
 from math import inf
 from random import randint
 from pathlib import Path
-from deep_equation.src.deep_equation.helper import hot_encoding, img_to_tensor, load_classes
+from deep_equation.helper import hot_encoding, img_to_tensor, load_classes
 
 
 def handle_operation(n1, n2, op):

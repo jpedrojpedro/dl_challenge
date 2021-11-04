@@ -6,7 +6,7 @@ import numpy as np
 from typing import List
 from pathlib import Path
 from deep_equation.model import LeNet
-from deep_equation.helper import adjust_inputs
+from deep_equation.helper import adjust_inputs, load_classes
 
 
 class BaseNet:
@@ -99,5 +99,6 @@ class StudentModel(BaseNet):
         model = self.load_model()
         fixed_inputs = adjust_inputs(images_a, images_b, operators)
         predictions = model(fixed_inputs)
-        predictions = [float(torch.argmax(pred)) for pred in predictions]
+        classes = load_classes("classes_to_values.json")
+        predictions = [float(classes[str(int(torch.argmax(pred)))]) for pred in predictions]
         return predictions
